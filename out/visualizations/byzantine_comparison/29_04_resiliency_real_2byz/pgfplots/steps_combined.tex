@@ -1,0 +1,140 @@
+% ============================================================
+% Add these packages to your LaTeX preamble (if not present):
+%   \usepackage{pgfplots}
+%   \usepackage{pgfplotstable}
+%   \usepackage{siunitx}
+%   \usepgfplotslibrary{fillbetween}
+%   \pgfplotsset{compat=1.18}
+% ============================================================
+
+\definecolor{colorNoByzantine}{HTML}{E41A1C}
+\definecolor{colorAllObsAttacks}{HTML}{377EB8}
+\definecolor{colorCapacityLie}{HTML}{4DAF4A}
+\definecolor{colorCapacityDeflate}{HTML}{984EA3}
+\definecolor{colorDemandLie}{HTML}{FF7F00}
+\definecolor{colorDemandDeflate}{HTML}{FFFF33}
+\definecolor{colorDirInterferenceLie}{HTML}{A65628}
+\definecolor{colorInterferenceAmplifyfalsealarm}{HTML}{F781BF}
+\definecolor{colorInterferenceLiehide}{HTML}{999999}
+\definecolor{colorObsNoise}{HTML}{E41A1C}
+\definecolor{colorObsReplay}{HTML}{377EB8}
+\definecolor{colorUserDirLie}{HTML}{4DAF4A}
+
+\pgfplotsset{
+    % Shared styles
+    ci path/.style={draw=none},
+    ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark repeat=200, mark size=1.5pt},
+    % Per-condition styles
+    NoByzantine/.style={color=colorNoByzantine, mark=*},
+    AllObsAttacks/.style={color=colorAllObsAttacks, mark=square*},
+    CapacityLie/.style={color=colorCapacityLie, mark=triangle*},
+    CapacityDeflate/.style={color=colorCapacityDeflate, mark=diamond*},
+    DemandLie/.style={color=colorDemandLie, mark=pentagon*},
+    DemandDeflate/.style={color=colorDemandDeflate, mark=*},
+    DirInterferenceLie/.style={color=colorDirInterferenceLie, mark=square*},
+    InterferenceAmplifyfalsealarm/.style={color=colorInterferenceAmplifyfalsealarm, mark=triangle*},
+    InterferenceLiehide/.style={color=colorInterferenceLiehide, mark=diamond*},
+    ObsNoise/.style={color=colorObsNoise, mark=pentagon*},
+    ObsReplay/.style={color=colorObsReplay, mark=*},
+    UserDirLie/.style={color=colorUserDirLie, mark=square*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major,
+        grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small $t$},
+        ylabel={\small $\tau$ [\si{\mega\bit\per\second}]},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small},
+        label style={font=\small},
+    ]
+
+    % ===== No Byzantine =====
+    \addplot [name path=NoByzantine upper, ci path, forget plot] table [x=x, y=upNoByzantine, col sep=comma] {steps_combined.csv};
+    \addplot [name path=NoByzantine lower, ci path, forget plot] table [x=x, y=lowNoByzantine, col sep=comma] {steps_combined.csv};
+    \addplot [NoByzantine, ci fill, forget plot] fill between [of=NoByzantine upper and NoByzantine lower];
+    \addplot [NoByzantine, mean] table [x=x, y=meanNoByzantine, col sep=comma] {steps_combined.csv};
+    \addlegendentry{No Byzantine}
+
+    % ===== All Obs. Attacks =====
+    \addplot [name path=AllObsAttacks upper, ci path, forget plot] table [x=x, y=upAllObsAttacks, col sep=comma] {steps_combined.csv};
+    \addplot [name path=AllObsAttacks lower, ci path, forget plot] table [x=x, y=lowAllObsAttacks, col sep=comma] {steps_combined.csv};
+    \addplot [AllObsAttacks, ci fill, forget plot] fill between [of=AllObsAttacks upper and AllObsAttacks lower];
+    \addplot [AllObsAttacks, mean] table [x=x, y=meanAllObsAttacks, col sep=comma] {steps_combined.csv};
+    \addlegendentry{All Obs. Attacks}
+
+    % ===== Capacity Lie =====
+    \addplot [name path=CapacityLie upper, ci path, forget plot] table [x=x, y=upCapacityLie, col sep=comma] {steps_combined.csv};
+    \addplot [name path=CapacityLie lower, ci path, forget plot] table [x=x, y=lowCapacityLie, col sep=comma] {steps_combined.csv};
+    \addplot [CapacityLie, ci fill, forget plot] fill between [of=CapacityLie upper and CapacityLie lower];
+    \addplot [CapacityLie, mean] table [x=x, y=meanCapacityLie, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Capacity Lie}
+
+    % ===== Capacity Deflate =====
+    \addplot [name path=CapacityDeflate upper, ci path, forget plot] table [x=x, y=upCapacityDeflate, col sep=comma] {steps_combined.csv};
+    \addplot [name path=CapacityDeflate lower, ci path, forget plot] table [x=x, y=lowCapacityDeflate, col sep=comma] {steps_combined.csv};
+    \addplot [CapacityDeflate, ci fill, forget plot] fill between [of=CapacityDeflate upper and CapacityDeflate lower];
+    \addplot [CapacityDeflate, mean] table [x=x, y=meanCapacityDeflate, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Capacity Deflate}
+
+    % ===== Demand Lie =====
+    \addplot [name path=DemandLie upper, ci path, forget plot] table [x=x, y=upDemandLie, col sep=comma] {steps_combined.csv};
+    \addplot [name path=DemandLie lower, ci path, forget plot] table [x=x, y=lowDemandLie, col sep=comma] {steps_combined.csv};
+    \addplot [DemandLie, ci fill, forget plot] fill between [of=DemandLie upper and DemandLie lower];
+    \addplot [DemandLie, mean] table [x=x, y=meanDemandLie, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Demand Lie}
+
+    % ===== Demand Deflate =====
+    \addplot [name path=DemandDeflate upper, ci path, forget plot] table [x=x, y=upDemandDeflate, col sep=comma] {steps_combined.csv};
+    \addplot [name path=DemandDeflate lower, ci path, forget plot] table [x=x, y=lowDemandDeflate, col sep=comma] {steps_combined.csv};
+    \addplot [DemandDeflate, ci fill, forget plot] fill between [of=DemandDeflate upper and DemandDeflate lower];
+    \addplot [DemandDeflate, mean] table [x=x, y=meanDemandDeflate, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Demand Deflate}
+
+    % ===== Dir + Interference Lie =====
+    \addplot [name path=DirInterferenceLie upper, ci path, forget plot] table [x=x, y=upDirInterferenceLie, col sep=comma] {steps_combined.csv};
+    \addplot [name path=DirInterferenceLie lower, ci path, forget plot] table [x=x, y=lowDirInterferenceLie, col sep=comma] {steps_combined.csv};
+    \addplot [DirInterferenceLie, ci fill, forget plot] fill between [of=DirInterferenceLie upper and DirInterferenceLie lower];
+    \addplot [DirInterferenceLie, mean] table [x=x, y=meanDirInterferenceLie, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Dir + Interference Lie}
+
+    % ===== Interference Amplify (false alarm) =====
+    \addplot [name path=InterferenceAmplifyfalsealarm upper, ci path, forget plot] table [x=x, y=upInterferenceAmplifyfalsealarm, col sep=comma] {steps_combined.csv};
+    \addplot [name path=InterferenceAmplifyfalsealarm lower, ci path, forget plot] table [x=x, y=lowInterferenceAmplifyfalsealarm, col sep=comma] {steps_combined.csv};
+    \addplot [InterferenceAmplifyfalsealarm, ci fill, forget plot] fill between [of=InterferenceAmplifyfalsealarm upper and InterferenceAmplifyfalsealarm lower];
+    \addplot [InterferenceAmplifyfalsealarm, mean] table [x=x, y=meanInterferenceAmplifyfalsealarm, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Interference Amplify (false alarm)}
+
+    % ===== Interference Lie (hide) =====
+    \addplot [name path=InterferenceLiehide upper, ci path, forget plot] table [x=x, y=upInterferenceLiehide, col sep=comma] {steps_combined.csv};
+    \addplot [name path=InterferenceLiehide lower, ci path, forget plot] table [x=x, y=lowInterferenceLiehide, col sep=comma] {steps_combined.csv};
+    \addplot [InterferenceLiehide, ci fill, forget plot] fill between [of=InterferenceLiehide upper and InterferenceLiehide lower];
+    \addplot [InterferenceLiehide, mean] table [x=x, y=meanInterferenceLiehide, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Interference Lie (hide)}
+
+    % ===== Obs. Noise =====
+    \addplot [name path=ObsNoise upper, ci path, forget plot] table [x=x, y=upObsNoise, col sep=comma] {steps_combined.csv};
+    \addplot [name path=ObsNoise lower, ci path, forget plot] table [x=x, y=lowObsNoise, col sep=comma] {steps_combined.csv};
+    \addplot [ObsNoise, ci fill, forget plot] fill between [of=ObsNoise upper and ObsNoise lower];
+    \addplot [ObsNoise, mean] table [x=x, y=meanObsNoise, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Obs. Noise}
+
+    % ===== Obs. Replay =====
+    \addplot [name path=ObsReplay upper, ci path, forget plot] table [x=x, y=upObsReplay, col sep=comma] {steps_combined.csv};
+    \addplot [name path=ObsReplay lower, ci path, forget plot] table [x=x, y=lowObsReplay, col sep=comma] {steps_combined.csv};
+    \addplot [ObsReplay, ci fill, forget plot] fill between [of=ObsReplay upper and ObsReplay lower];
+    \addplot [ObsReplay, mean] table [x=x, y=meanObsReplay, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Obs. Replay}
+
+    % ===== User Dir Lie =====
+    \addplot [name path=UserDirLie upper, ci path, forget plot] table [x=x, y=upUserDirLie, col sep=comma] {steps_combined.csv};
+    \addplot [name path=UserDirLie lower, ci path, forget plot] table [x=x, y=lowUserDirLie, col sep=comma] {steps_combined.csv};
+    \addplot [UserDirLie, ci fill, forget plot] fill between [of=UserDirLie upper and UserDirLie lower];
+    \addplot [UserDirLie, mean] table [x=x, y=meanUserDirLie, col sep=comma] {steps_combined.csv};
+    \addlegendentry{User Dir Lie}
+
+    \end{axis}
+\end{tikzpicture}

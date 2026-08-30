@@ -1,0 +1,108 @@
+# pycache
+*.pyc
+__pycache__/
+.pytest_cache
+
+# vscode cache
+.vscode
+
+# env
+.venv
+
+# customized scripts
+notes/
+custom_*.py
+
+# doc site
+site/
+
+# ubelix batch
+
+#job_scripts/
+#python_rl_job*.sh
+#ubelix_train/
+
+# Ignore everything inside out/ or build/
+#out/*
+build/*
+
+# claude
+CLAUDE.md
+PROJECT_SPEC.md
+byzantine_robustness_plan.md
+Leuenberger et al. - 2025 - Proactive Decentralized Multi-Agent Data-Driven Node Relocation for Jammed Mobile Networks.pdf
+
+
+# visualizations
+supervisor_summary.md
+reports/
+
+# Not needed on cluster
+out/evaluations/
+!out/evaluations/29_04_learned_coordinated_60M_1000ep/
+out/logs/
+out/*.csv
+out/models/*
+!out/models/29_04
+!out/models/learned_byzantine
+out/models/learned_byzantine/*
+!out/models/learned_byzantine/29_04_1byz_local
+out/models/learned_byzantine/29_04_1byz_local/*
+!out/models/learned_byzantine/29_04_1byz_local/byz_agent.zip
+logs/
+29_04_jammer_2byz/
+29_04_obs_replay_500_2byz/
+tutorial.ipynb
+src/ubelix_train/*
+!src/ubelix_train/16_06_N10_no_obs_attack.yaml
+!src/ubelix_train/17_06_N6_no_obs_attack.yaml
+!src/ubelix_train/17_06_N8_no_obs_attack.yaml
+!src/ubelix_train/17_06_N9_no_obs_attack.yaml
+tests/
+docs/
+mkdocs.yml
+job_scripts/*
+!job_scripts/train_learned_byzantine_coordinated_60M_ditet.sh
+!job_scripts/train_learned_byzantine_coordinated_60M_resume.sh
+!job_scripts/harm_nojammer_2byz_sweep_ditet.sh
+!job_scripts/train_learned_byzantine_heard_60M_ditet.sh
+!job_scripts/eval_learned_byzantine_1byz_local_2000ep_ditet.sh
+!job_scripts/eval_learned_byzantine_1byz_local_4000ep_ditet.sh
+!job_scripts/eval_learned_byzantine_1byz_local_4000ep_parallel_ditet.sh
+!job_scripts/train_learned_byzantine_heard_60M_resume_ditet.sh
+!job_scripts/train_learned_byzantine_coordinated_60M_resume_ditet.sh
+!job_scripts/train_learned_byzantine_full_obs_60M_resume_ditet.sh
+!job_scripts/train_learned_byzantine_full_obs_60M_ditet.sh
+!job_scripts/eval_full_heard_coord_4000ep_ditet.sh
+!job_scripts/eval_shard_sanity_check.sh
+!job_scripts/train_learned_byzantine_1byz_full_obs_30M_ditet.sh
+!job_scripts/eval_1byz_full_obs_4000ep_ditet.sh
+!job_scripts/eval_1byz_local_4000ep_ditet.sh
+!job_scripts/eval_heuristics_full_obs_4000ep_ditet.sh
+!job_scripts/eval_heuristics_full_obs_sweep_ditet.sh
+!job_scripts/train_adv_honest_vs_full_obs_30M_ditet.sh
+!job_scripts/train_adv_honest_vs_full_obs_60M_resume_ditet.sh
+!job_scripts/eval_adv_honest_full_obs_3cond_ditet.sh
+!job_scripts/eval_adv_honest_baseline_dirlie_ditet.sh
+!job_scripts/eval_nobyz_local_oracle_4000ep_ditet.sh
+!job_scripts/check_convergence_ditet.sh
+!job_scripts/eval_heard_30Mckpt_4000ep_ditet.sh
+!job_scripts/train_learned_byzantine_N7_2byz_full_obs_60M_ditet.sh
+!job_scripts/eval_N7_2byz_full_obs_4000ep_ditet.sh
+!job_scripts/train_honest_no_obs_attack_ditet.sh
+src/examples/batch_file_generation/
+src/examples/config_generation/
+src/examples/filter/
+src/examples/retrain/
+src/examples/train/
+!job_scripts/train_adv_honest_finetune_30M_ditet.sh
+!job_scripts/eval_adv_honest_finetune_ditet.sh
+!job_scripts/eval_adv_defense_dirlie_f1_ditet.sh
+!job_scripts/eval_heuristics_unbounded_jammer_ditet.sh
+!job_scripts/train_learned_byzantine_full_obs_fullscope_30M_ditet.sh
+!job_scripts/eval_heuristics_full_obs_missing_ditet.sh
+!job_scripts/eval_heuristics_full_obs_one_ditet.sh
+!job_scripts/train_N10_no_obs_attack_ditet.sh
+!job_scripts/eval_nobyz_N_scaling_4000ep_ditet.sh
+!job_scripts/train_oracle_fullvec_30M_ditet.sh
+!job_scripts/train_oracle_fullvec_1byz_N_ditet.sh

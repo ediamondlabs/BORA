@@ -1,0 +1,30 @@
+\definecolor{colorOracle}{HTML}{377EB8}
+\definecolor{colorLocal}{HTML}{E41A1C}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small Training steps (M)},
+        ylabel={\small PADRE episode reward (lower $=$ more disruption)},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=2},
+        tick label style={font=\small}, label style={font=\small},
+    ]
+    % Oracle — raw (faint)
+    \addplot [colorOracle, opacity=0.2, forget plot, thin]
+        table [x=step_M, y=oracle_raw, col sep=comma] {training_curves.csv};
+    % Oracle — smoothed
+    \addplot [colorOracle, thick]
+        table [x=step_M, y=oracle_smooth, col sep=comma] {training_curves.csv};
+    \addlegendentry{Oracle (full obs)}
+
+    % Local — raw (faint)
+    \addplot [colorLocal, opacity=0.2, forget plot, thin]
+        table [x=step_M, y=local_raw, col sep=comma] {training_curves.csv};
+    % Local — smoothed
+    \addplot [colorLocal, thick]
+        table [x=step_M, y=local_smooth, col sep=comma] {training_curves.csv};
+    \addlegendentry{Local obs only}
+
+    \end{axis}
+\end{tikzpicture}

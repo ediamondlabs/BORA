@@ -1,0 +1,59 @@
+% ============================================================
+% Add these packages to your LaTeX preamble (if not present):
+%   \usepackage{pgfplots}
+%   \usepackage{pgfplotstable}
+%   \usepackage{siunitx}
+%   \usepgfplotslibrary{fillbetween}
+%   \pgfplotsset{compat=1.18}
+% ============================================================
+
+\definecolor{colorSelectiveJam}{HTML}{E41A1C}
+\definecolor{colorSinkhole}{HTML}{377EB8}
+\definecolor{colorNoByzantine}{HTML}{4DAF4A}
+
+\pgfplotsset{
+    % Shared styles
+    ci path/.style={draw=none},
+    ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark repeat=200, mark size=1.5pt},
+    % Per-condition styles
+    SelectiveJam/.style={color=colorSelectiveJam, mark=*},
+    Sinkhole/.style={color=colorSinkhole, mark=square*},
+    NoByzantine/.style={color=colorNoByzantine, mark=triangle*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major,
+        grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small $t$},
+        ylabel={\small $\tau$ [\si{\mega\bit\per\second}]},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small},
+        label style={font=\small},
+    ]
+
+    % ===== Selective Jam. =====
+    \addplot [name path=SelectiveJam upper, ci path, forget plot] table [x=x, y=upSelectiveJam, col sep=comma] {steps_combined.csv};
+    \addplot [name path=SelectiveJam lower, ci path, forget plot] table [x=x, y=lowSelectiveJam, col sep=comma] {steps_combined.csv};
+    \addplot [SelectiveJam, ci fill, forget plot] fill between [of=SelectiveJam upper and SelectiveJam lower];
+    \addplot [SelectiveJam, mean] table [x=x, y=meanSelectiveJam, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Selective Jam.}
+
+    % ===== Sinkhole =====
+    \addplot [name path=Sinkhole upper, ci path, forget plot] table [x=x, y=upSinkhole, col sep=comma] {steps_combined.csv};
+    \addplot [name path=Sinkhole lower, ci path, forget plot] table [x=x, y=lowSinkhole, col sep=comma] {steps_combined.csv};
+    \addplot [Sinkhole, ci fill, forget plot] fill between [of=Sinkhole upper and Sinkhole lower];
+    \addplot [Sinkhole, mean] table [x=x, y=meanSinkhole, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Sinkhole}
+
+    % ===== No Byzantine =====
+    \addplot [name path=NoByzantine upper, ci path, forget plot] table [x=x, y=upNoByzantine, col sep=comma] {steps_combined.csv};
+    \addplot [name path=NoByzantine lower, ci path, forget plot] table [x=x, y=lowNoByzantine, col sep=comma] {steps_combined.csv};
+    \addplot [NoByzantine, ci fill, forget plot] fill between [of=NoByzantine upper and NoByzantine lower];
+    \addplot [NoByzantine, mean] table [x=x, y=meanNoByzantine, col sep=comma] {steps_combined.csv};
+    \addlegendentry{No Byzantine}
+
+    \end{axis}
+\end{tikzpicture}

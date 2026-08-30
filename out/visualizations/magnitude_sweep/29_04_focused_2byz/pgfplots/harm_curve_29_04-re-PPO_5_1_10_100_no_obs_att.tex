@@ -1,0 +1,51 @@
+% ============================================================
+% Required preamble: \usepackage{pgfplots,pgfplotstable,siunitx}
+%   \usepgfplotslibrary{fillbetween}  \pgfplotsset{compat=1.18}
+% ============================================================
+
+\definecolor{colorDirInterferenceLie}{HTML}{E41A1C}
+\definecolor{colorInterferenceLie}{HTML}{377EB8}
+\definecolor{colorUserDirLie}{HTML}{4DAF4A}
+
+\pgfplotsset{
+    ci path/.style={draw=none},
+    ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark size=1.5pt},
+    DirInterferenceLie/.style={color=colorDirInterferenceLie, mark=*},
+    InterferenceLie/.style={color=colorInterferenceLie, mark=square*},
+    UserDirLie/.style={color=colorUserDirLie, mark=triangle*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small magnitude},
+        ylabel={\small $\Delta\tau\,[\%]$},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small}, label style={font=\small},
+    ]
+
+    % ===== Dir + Interference Lie =====
+    \addplot [name path=DirInterferenceLieup, ci path, forget plot] table [x=x, y=upDirInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=DirInterferenceLielo, ci path, forget plot] table [x=x, y=lowDirInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [DirInterferenceLie, ci fill, forget plot] fill between [of=DirInterferenceLieup and DirInterferenceLielo];
+    \addplot [DirInterferenceLie, mean] table [x=x, y=meanDirInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Dir + Interference Lie}
+
+    % ===== Interference Lie =====
+    \addplot [name path=InterferenceLieup, ci path, forget plot] table [x=x, y=upInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=InterferenceLielo, ci path, forget plot] table [x=x, y=lowInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [InterferenceLie, ci fill, forget plot] fill between [of=InterferenceLieup and InterferenceLielo];
+    \addplot [InterferenceLie, mean] table [x=x, y=meanInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Interference Lie}
+
+    % ===== User Dir Lie =====
+    \addplot [name path=UserDirLieup, ci path, forget plot] table [x=x, y=upUserDirLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=UserDirLielo, ci path, forget plot] table [x=x, y=lowUserDirLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [UserDirLie, ci fill, forget plot] fill between [of=UserDirLieup and UserDirLielo];
+    \addplot [UserDirLie, mean] table [x=x, y=meanUserDirLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{User Dir Lie}
+
+    \end{axis}
+\end{tikzpicture}

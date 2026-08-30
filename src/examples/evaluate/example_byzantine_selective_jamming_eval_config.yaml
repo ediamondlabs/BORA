@@ -1,0 +1,37 @@
+agent_patterns:
+- patterns/to/your/models
+baselines_with_cs:
+- baseline: GreedyMaximizer
+  cs: TrafficHosted
+  threshold: 1000000000000000.0
+env_constr: Dynamic_MANETEnv
+eval_params:
+  allow_early_ep_finish: false
+  attackerModel: Static_ClusterJammers
+  deterministic: true
+  ep_length: 1000
+  jammer_ep_steps: 500
+  jammersSpawnNextToUsers: false
+  n_eval_eps: 30
+  networkConnectedAtStart: false
+  numbOfJammers: 1
+  numbOfUsers:
+  - 2
+  - 21
+  obs_type: real
+  render_mode: null
+  routing_func: sequential_max_flow
+  seed: 22
+  state_loss_rate: null
+  step_size: 2
+  # Selective jamming: insider node emits interference, degrading link capacities of
+  # all reachable neighbours via Shannon's Theorem.
+  numbOfByzantineNodes: 1
+  byzantine_attack_type: selective_jamming
+  byzantine_jamming_power_factor: 1.5  # multiplier on signalPower_mW emitted as interference
+eval_type: grouped_eval
+log_dir: out/evaluations/
+log_results: true
+log_state: true
+log_eval: true
+mode: evaluate

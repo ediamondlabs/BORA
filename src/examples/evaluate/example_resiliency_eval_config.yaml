@@ -1,0 +1,52 @@
+agent_patterns:
+- patterns/to/your/models
+baselines_with_cs:
+- baseline: GreedyMaximizer
+  cs: TrafficHosted
+  threshold: 1000000000000000.0
+env_constr: Dynamic_MANETEnv
+eval_params:
+  allow_early_ep_finish: false
+  attackerModel: Static_ClusterJammers
+  deterministic: true
+  ep_length: 2000
+  jammer_ep_steps: 200
+  jammersSpawnNextToUsers: false
+  n_eval_eps: 100
+  networkConnectedAtStart: false
+  numbOfJammers: 1
+  numbOfUsers:
+  - 2
+  - 21
+  seed: 22
+  state_loss_rate: null
+  step_size: 2
+  routing_func: sequential_max_flow
+  render_mode: null
+
+  # Observation protocol — controls how honest nodes receive neighbor state.
+  # "real"    : multi-hop flooding via nx.ancestors (PADRE deployment default)
+  # "gossip1" : 1-hop BFS only; Byzantine lies reach direct neighbors only
+  # "reliable": flooding + min-merge cache against capacity/demand inflation
+  # "full"    : centralized CTDE (training default; upper-bounds honest performance)
+  obs_type: real
+
+  # Byzantine attack — obs_user_dir is the dominant learned attack
+  numbOfByzantineNodes: 2
+  byzantine_attack_type: obs_user_dir
+  byzantine_obs_user_dir_offset: [0.0, 0.0]  # offset set by learned agent at runtime
+
+  # Alternative: test resiliency against capacity inflation
+  # byzantine_attack_type: obs_capacity
+  # byzantine_obs_capacity_factor: 5.0
+
+  # Alternative: test resiliency against demand inflation
+  # byzantine_attack_type: obs_demand
+  # byzantine_obs_demand_factor: 5.0
+
+eval_type: grouped_eval
+log_dir: out/evaluations/
+log_results: true
+log_state: true
+log_eval: true
+mode: evaluate

@@ -1,0 +1,78 @@
+% ============================================================
+% Required preamble: \usepackage{pgfplots,pgfplotstable,siunitx}
+%   \usepgfplotslibrary{fillbetween}  \pgfplotsset{compat=1.18}
+% ============================================================
+
+\definecolor{colorCapacityLie}{HTML}{E41A1C}
+\definecolor{colorDemandLie}{HTML}{377EB8}
+\definecolor{colorInterferenceLie}{HTML}{4DAF4A}
+\definecolor{colorObsNoise}{HTML}{984EA3}
+\definecolor{colorUserDirLie}{HTML}{FF7F00}
+\definecolor{colorobsall}{HTML}{FFFF33}
+
+\pgfplotsset{
+    ci path/.style={draw=none},
+    ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark size=1.5pt},
+    CapacityLie/.style={color=colorCapacityLie, mark=*},
+    DemandLie/.style={color=colorDemandLie, mark=square*},
+    InterferenceLie/.style={color=colorInterferenceLie, mark=triangle*},
+    ObsNoise/.style={color=colorObsNoise, mark=diamond*},
+    UserDirLie/.style={color=colorUserDirLie, mark=pentagon*},
+    obsall/.style={color=colorobsall, mark=*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small magnitude},
+        ylabel={\small $\Delta\tau\,[\%]$},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small}, label style={font=\small},
+    ]
+
+    % ===== Capacity Lie =====
+    \addplot [name path=CapacityLieup, ci path, forget plot] table [x=x, y=upCapacityLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=CapacityLielo, ci path, forget plot] table [x=x, y=lowCapacityLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [CapacityLie, ci fill, forget plot] fill between [of=CapacityLieup and CapacityLielo];
+    \addplot [CapacityLie, mean] table [x=x, y=meanCapacityLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Capacity Lie}
+
+    % ===== Demand Lie =====
+    \addplot [name path=DemandLieup, ci path, forget plot] table [x=x, y=upDemandLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=DemandLielo, ci path, forget plot] table [x=x, y=lowDemandLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [DemandLie, ci fill, forget plot] fill between [of=DemandLieup and DemandLielo];
+    \addplot [DemandLie, mean] table [x=x, y=meanDemandLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Demand Lie}
+
+    % ===== Interference Lie =====
+    \addplot [name path=InterferenceLieup, ci path, forget plot] table [x=x, y=upInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=InterferenceLielo, ci path, forget plot] table [x=x, y=lowInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [InterferenceLie, ci fill, forget plot] fill between [of=InterferenceLieup and InterferenceLielo];
+    \addplot [InterferenceLie, mean] table [x=x, y=meanInterferenceLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Interference Lie}
+
+    % ===== Obs. Noise =====
+    \addplot [name path=ObsNoiseup, ci path, forget plot] table [x=x, y=upObsNoise, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=ObsNoiselo, ci path, forget plot] table [x=x, y=lowObsNoise, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [ObsNoise, ci fill, forget plot] fill between [of=ObsNoiseup and ObsNoiselo];
+    \addplot [ObsNoise, mean] table [x=x, y=meanObsNoise, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Obs. Noise}
+
+    % ===== User Dir Lie =====
+    \addplot [name path=UserDirLieup, ci path, forget plot] table [x=x, y=upUserDirLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=UserDirLielo, ci path, forget plot] table [x=x, y=lowUserDirLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [UserDirLie, ci fill, forget plot] fill between [of=UserDirLieup and UserDirLielo];
+    \addplot [UserDirLie, mean] table [x=x, y=meanUserDirLie, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{User Dir Lie}
+
+    % ===== obs_all =====
+    \addplot [name path=obsallup, ci path, forget plot] table [x=x, y=upobsall, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=obsalllo, ci path, forget plot] table [x=x, y=lowobsall, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [obsall, ci fill, forget plot] fill between [of=obsallup and obsalllo];
+    \addplot [obsall, mean] table [x=x, y=meanobsall, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{obs_all}
+
+    \end{axis}
+\end{tikzpicture}

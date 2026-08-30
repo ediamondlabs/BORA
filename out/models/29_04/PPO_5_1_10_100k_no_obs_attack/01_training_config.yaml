@@ -1,0 +1,74 @@
+attacker:
+  model: Static_ClusterJammers
+  step_jammers_start_moving: 100
+  steps_till_jammer_active: 200
+env:
+  name: Static_MANETEnv
+  parameters:
+    allow_early_ep_finish: true
+    byzantine_attack_type: greyhole
+    byzantine_capacity_inflation_factor: 3.0
+    byzantine_drop_rate: 0.5
+    byzantine_jamming_power_factor: 1.0
+    jammersSpawnNextToUsers: true
+    networkConnectedAtStart: true
+    numbOfByzantineNodes: 0
+    numbOfJammers: 1
+    numbOfNodes: 5
+    numbOfUsers: 10
+    routing_func: sequential_max_flow
+    seed: 9
+    step_size: 2
+  render: false
+model:
+  RL_model_name: PPO
+obs_wrapper:
+  config:
+    capacity_matrix: false
+    nodes:
+      closestReceiverDir: true
+      closestReceiverPos: false
+      closestSenderDir: true
+      closestSenderPos: false
+      closestUserDir: true
+      closestUserInterference: false
+      closestUserPos: false
+      inCapacities: true
+      inReceiverCount: false
+      inSenderCount: true
+      inUserCount: true
+      interference: true
+      outCapacities: true
+      outReceiverCount: true
+      outSenderCount: false
+      outUserCount: true
+      pos_consistency: false
+      position: true
+      receivedSignal: false
+      sensedReceiverDemands: true
+      sensedSenderDemands: true
+      signalPower: true
+      signal_consistency: false
+      trafficHosted: false
+      trust: false
+      unexplained_interference: false
+    users:
+      destination: false
+      interference: false
+      offeredLoad: false
+      position: false
+      receivedSignal: false
+      signalPower: false
+  type: VS_iCOW
+rew_wrapper:
+  type: SquaredReward
+storing_and_logging:
+  log_path: out/logs/29_04
+  model_path: out/models/29_04/PPO_5_1_10_100k_no_obs_attack
+  tb_logname: PPO_5_1_10_100k_no_obs_attack
+training:
+  ep_length: 100000
+  n_envs: 29
+  save_freq: 500000
+  stat_size: 10
+  timesteps: 30000000

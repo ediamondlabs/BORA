@@ -1,0 +1,77 @@
+% ============================================================
+% Add these packages to your LaTeX preamble (if not present):
+%   \usepackage{pgfplots}
+%   \usepackage{pgfplotstable}
+%   \usepackage{siunitx}
+%   \usepgfplotslibrary{fillbetween}
+%   \pgfplotsset{compat=1.18}
+% ============================================================
+
+\definecolor{colorNoByzantine}{HTML}{E41A1C}
+\definecolor{colorInterferenceAmplifyfalsealarm}{HTML}{377EB8}
+\definecolor{colorInterferenceLiehide}{HTML}{4DAF4A}
+\definecolor{colorObsNoise}{HTML}{984EA3}
+\definecolor{colorUserDirLie}{HTML}{FF7F00}
+
+\pgfplotsset{
+    % Shared styles
+    ci path/.style={draw=none},
+    ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark repeat=200, mark size=1.5pt},
+    % Per-condition styles
+    NoByzantine/.style={color=colorNoByzantine, mark=*},
+    InterferenceAmplifyfalsealarm/.style={color=colorInterferenceAmplifyfalsealarm, mark=square*},
+    InterferenceLiehide/.style={color=colorInterferenceLiehide, mark=triangle*},
+    ObsNoise/.style={color=colorObsNoise, mark=diamond*},
+    UserDirLie/.style={color=colorUserDirLie, mark=pentagon*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major,
+        grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small $t$},
+        ylabel={\small $\tau$ [\si{\mega\bit\per\second}]},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small},
+        label style={font=\small},
+    ]
+
+    % ===== No Byzantine =====
+    \addplot [name path=NoByzantine upper, ci path, forget plot] table [x=x, y=upNoByzantine, col sep=comma] {steps_combined.csv};
+    \addplot [name path=NoByzantine lower, ci path, forget plot] table [x=x, y=lowNoByzantine, col sep=comma] {steps_combined.csv};
+    \addplot [NoByzantine, ci fill, forget plot] fill between [of=NoByzantine upper and NoByzantine lower];
+    \addplot [NoByzantine, mean] table [x=x, y=meanNoByzantine, col sep=comma] {steps_combined.csv};
+    \addlegendentry{No Byzantine}
+
+    % ===== Interference Amplify (false alarm) =====
+    \addplot [name path=InterferenceAmplifyfalsealarm upper, ci path, forget plot] table [x=x, y=upInterferenceAmplifyfalsealarm, col sep=comma] {steps_combined.csv};
+    \addplot [name path=InterferenceAmplifyfalsealarm lower, ci path, forget plot] table [x=x, y=lowInterferenceAmplifyfalsealarm, col sep=comma] {steps_combined.csv};
+    \addplot [InterferenceAmplifyfalsealarm, ci fill, forget plot] fill between [of=InterferenceAmplifyfalsealarm upper and InterferenceAmplifyfalsealarm lower];
+    \addplot [InterferenceAmplifyfalsealarm, mean] table [x=x, y=meanInterferenceAmplifyfalsealarm, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Interference Amplify (false alarm)}
+
+    % ===== Interference Lie (hide) =====
+    \addplot [name path=InterferenceLiehide upper, ci path, forget plot] table [x=x, y=upInterferenceLiehide, col sep=comma] {steps_combined.csv};
+    \addplot [name path=InterferenceLiehide lower, ci path, forget plot] table [x=x, y=lowInterferenceLiehide, col sep=comma] {steps_combined.csv};
+    \addplot [InterferenceLiehide, ci fill, forget plot] fill between [of=InterferenceLiehide upper and InterferenceLiehide lower];
+    \addplot [InterferenceLiehide, mean] table [x=x, y=meanInterferenceLiehide, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Interference Lie (hide)}
+
+    % ===== Obs. Noise =====
+    \addplot [name path=ObsNoise upper, ci path, forget plot] table [x=x, y=upObsNoise, col sep=comma] {steps_combined.csv};
+    \addplot [name path=ObsNoise lower, ci path, forget plot] table [x=x, y=lowObsNoise, col sep=comma] {steps_combined.csv};
+    \addplot [ObsNoise, ci fill, forget plot] fill between [of=ObsNoise upper and ObsNoise lower];
+    \addplot [ObsNoise, mean] table [x=x, y=meanObsNoise, col sep=comma] {steps_combined.csv};
+    \addlegendentry{Obs. Noise}
+
+    % ===== User Dir Lie =====
+    \addplot [name path=UserDirLie upper, ci path, forget plot] table [x=x, y=upUserDirLie, col sep=comma] {steps_combined.csv};
+    \addplot [name path=UserDirLie lower, ci path, forget plot] table [x=x, y=lowUserDirLie, col sep=comma] {steps_combined.csv};
+    \addplot [UserDirLie, ci fill, forget plot] fill between [of=UserDirLie upper and UserDirLie lower];
+    \addplot [UserDirLie, mean] table [x=x, y=meanUserDirLie, col sep=comma] {steps_combined.csv};
+    \addlegendentry{User Dir Lie}
+
+    \end{axis}
+\end{tikzpicture}

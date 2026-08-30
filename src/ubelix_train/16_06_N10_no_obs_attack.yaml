@@ -1,0 +1,76 @@
+mode: train
+model:
+  RL_model_name: PPO
+attacker:
+  model: Static_ClusterJammers
+  steps_till_jammer_active: 200
+  step_jammers_start_moving: 100
+env:
+  name: Static_MANETEnv
+  parameters:
+    numbOfNodes: 10
+    numbOfJammers: 1
+    numbOfUsers: 10
+    allow_early_ep_finish: true
+    jammersSpawnNextToUsers: true
+    networkConnectedAtStart: true
+    seed: 9
+    routing_func: sequential_max_flow
+    step_size: 2
+    numbOfByzantineNodes: 0
+    byzantine_obs_user_dir_offset: None
+    byzantine_obs_capacity_factor: 1.0
+    byzantine_obs_demand_factor: 1.0
+    byzantine_obs_interference_factor: 1.0
+    byzantine_obs_noise_std: 0.0
+  render: false
+obs_wrapper:
+  type: VS_iCOW
+  config:
+    nodes:
+      position: true
+      receivedSignal: false
+      interference: true
+      signalPower: true
+      trafficHosted: false
+      inCapacities: true
+      outCapacities: true
+      sensedSenderDemands: true
+      sensedReceiverDemands: true
+      inUserCount: true
+      outUserCount: true
+      inSenderCount: true
+      outSenderCount: false
+      inReceiverCount: false
+      outReceiverCount: true
+      closestUserDir: true
+      closestUserPos: false
+      closestSenderDir: true
+      closestSenderPos: false
+      closestReceiverDir: true
+      closestReceiverPos: false
+      closestUserInterference: false
+      signal_consistency: false
+      pos_consistency: false
+      unexplained_interference: false
+      trust: false
+    users:
+      position: false
+      receivedSignal: false
+      interference: false
+      signalPower: false
+      offeredLoad: false
+      destination: false
+    capacity_matrix: false
+rew_wrapper:
+  type: SquaredReward
+storing_and_logging:
+  model_dir: /itet-stor/arbaur/net_scratch/out/models/16_06_N10
+  log_dir: out/logs
+  log_name: N10_no_obs_attack
+training:
+  ep_length: 100000
+  save_freq: 500000
+  stat_size: 10
+  timesteps: 30000000
+  n_envs: 19

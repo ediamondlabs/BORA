@@ -1,0 +1,20 @@
+% Direction sensitivity — obs_user_dir — Gredy_Trffc
+% Required preamble: \usepackage{pgfplots,pgfplotstable}
+%   \usepgfplotslibrary{fillbetween}  \pgfplotsset{compat=1.18}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small offset angle (degrees)},
+        ylabel={\small $\Delta\tau\,[\%]$},
+        xtick=data,
+        tick label style={font=\small}, label style={font=\small},
+    ]
+    \addplot [name path=up, draw=none, forget plot] table [x=angle, y=up, col sep=comma] {direction_sensitivity_Gredy_Trffc.csv};
+    \addplot [name path=lo, draw=none, forget plot] table [x=angle, y=low, col sep=comma] {direction_sensitivity_Gredy_Trffc.csv};
+    \addplot [blue!30, opacity=0.3, forget plot] fill between [of=up and lo];
+    \addplot [blue, thick, mark=*, mark size=2pt] table [x=angle, y=mean, col sep=comma] {direction_sensitivity_Gredy_Trffc.csv};
+    \addlegendentry{User Dir Lie}
+    \end{axis}
+\end{tikzpicture}

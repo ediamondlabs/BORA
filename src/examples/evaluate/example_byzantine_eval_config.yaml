@@ -1,0 +1,43 @@
+agent_patterns:
+- patterns/to/your/models
+baselines_with_cs:
+- baseline: GreedyMaximizer
+  cs: TrafficHosted
+  threshold: 1000000000000000.0
+env_constr: Dynamic_MANETEnv
+eval_params:
+  allow_early_ep_finish: false
+  attackerModel: Static_ClusterJammers
+  deterministic: true
+  ep_length: 1000
+  jammer_ep_steps: 500
+  jammersSpawnNextToUsers: false
+  n_eval_eps: 30
+  networkConnectedAtStart: false
+  numbOfJammers: 1
+  numbOfUsers:
+  - 2
+  - 21
+  obs_type: real
+  render_mode: null
+  routing_func: sequential_max_flow
+  seed: 22
+  state_loss_rate: null
+  step_size: 2
+  # Byzantine attack configuration:
+  # Set numbOfByzantineNodes > 0 to inject Byzantine nodes at evaluation time.
+  # This lets you evaluate a normally-trained model under attack conditions.
+  #
+  # Primary focus is observation manipulation — see
+  # example_obs_manipulation_eval_config.yaml for the full obs-attack parameter set.
+  # Routing-layer attacks (greyhole, sinkhole, selective_jamming, position_spoofing)
+  # are legacy/deferred but still supported.
+  numbOfByzantineNodes: 1
+  byzantine_attack_type: obs_demand     # see VALID_ATTACK_TYPES in MANET/Components.py
+  byzantine_obs_demand_factor: 3.0
+eval_type: grouped_eval
+log_dir: out/evaluations/
+log_results: true
+log_state: true
+log_eval: true
+mode: evaluate

@@ -1,0 +1,75 @@
+% Steps plot — magnitude 4.0
+% Required preamble: \usepackage{pgfplots,pgfplotstable,siunitx}
+%   \usepgfplotslibrary{fillbetween}  \pgfplotsset{compat=1.18}
+
+\definecolor{colorNoByzantine}{HTML}{E41A1C}
+\definecolor{colorCapacityLie}{HTML}{377EB8}
+\definecolor{colorDemandLie}{HTML}{4DAF4A}
+\definecolor{colorInterferenceLie}{HTML}{984EA3}
+\definecolor{colorObsNoise}{HTML}{FF7F00}
+\definecolor{colorUserDirLie}{HTML}{FFFF33}
+
+\pgfplotsset{
+    ci path/.style={draw=none}, ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark repeat=200, mark size=1.5pt},
+    NoByzantine/.style={color=colorNoByzantine, mark=*},
+    CapacityLie/.style={color=colorCapacityLie, mark=square*},
+    DemandLie/.style={color=colorDemandLie, mark=triangle*},
+    InterferenceLie/.style={color=colorInterferenceLie, mark=diamond*},
+    ObsNoise/.style={color=colorObsNoise, mark=pentagon*},
+    UserDirLie/.style={color=colorUserDirLie, mark=*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small $t$}, ylabel={\small $\tau$ [\si{\bit\per\second}]},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small}, label style={font=\small},
+    ]
+
+    % ===== No Byzantine =====
+    \addplot [name path=NoByzantineup, ci path, forget plot] table [x=x, y=upNoByzantine, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [name path=NoByzantinelo, ci path, forget plot] table [x=x, y=lowNoByzantine, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [NoByzantine, ci fill, forget plot] fill between [of=NoByzantineup and NoByzantinelo];
+    \addplot [NoByzantine, mean] table [x=x, y=meanNoByzantine, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addlegendentry{No Byzantine}
+
+    % ===== Capacity Lie =====
+    \addplot [name path=CapacityLieup, ci path, forget plot] table [x=x, y=upCapacityLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [name path=CapacityLielo, ci path, forget plot] table [x=x, y=lowCapacityLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [CapacityLie, ci fill, forget plot] fill between [of=CapacityLieup and CapacityLielo];
+    \addplot [CapacityLie, mean] table [x=x, y=meanCapacityLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addlegendentry{Capacity Lie}
+
+    % ===== Demand Lie =====
+    \addplot [name path=DemandLieup, ci path, forget plot] table [x=x, y=upDemandLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [name path=DemandLielo, ci path, forget plot] table [x=x, y=lowDemandLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [DemandLie, ci fill, forget plot] fill between [of=DemandLieup and DemandLielo];
+    \addplot [DemandLie, mean] table [x=x, y=meanDemandLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addlegendentry{Demand Lie}
+
+    % ===== Interference Lie =====
+    \addplot [name path=InterferenceLieup, ci path, forget plot] table [x=x, y=upInterferenceLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [name path=InterferenceLielo, ci path, forget plot] table [x=x, y=lowInterferenceLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [InterferenceLie, ci fill, forget plot] fill between [of=InterferenceLieup and InterferenceLielo];
+    \addplot [InterferenceLie, mean] table [x=x, y=meanInterferenceLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addlegendentry{Interference Lie}
+
+    % ===== Obs. Noise =====
+    \addplot [name path=ObsNoiseup, ci path, forget plot] table [x=x, y=upObsNoise, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [name path=ObsNoiselo, ci path, forget plot] table [x=x, y=lowObsNoise, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [ObsNoise, ci fill, forget plot] fill between [of=ObsNoiseup and ObsNoiselo];
+    \addplot [ObsNoise, mean] table [x=x, y=meanObsNoise, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addlegendentry{Obs. Noise}
+
+    % ===== User Dir Lie =====
+    \addplot [name path=UserDirLieup, ci path, forget plot] table [x=x, y=upUserDirLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [name path=UserDirLielo, ci path, forget plot] table [x=x, y=lowUserDirLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addplot [UserDirLie, ci fill, forget plot] fill between [of=UserDirLieup and UserDirLielo];
+    \addplot [UserDirLie, mean] table [x=x, y=meanUserDirLie, col sep=comma] {steps_19_03-re-PPO_5_1_10_10k_mag4.csv};
+    \addlegendentry{User Dir Lie}
+
+    \end{axis}
+\end{tikzpicture}

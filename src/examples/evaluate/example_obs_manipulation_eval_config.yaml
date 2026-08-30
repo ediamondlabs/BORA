@@ -1,0 +1,56 @@
+agent_patterns:
+- patterns/to/your/models
+baselines_with_cs:
+- baseline: GreedyMaximizer
+  cs: TrafficHosted
+  threshold: 1000000000000000.0
+env_constr: Dynamic_MANETEnv
+eval_params:
+  allow_early_ep_finish: false
+  attackerModel: Static_ClusterJammers
+  deterministic: true
+  ep_length: 1000
+  jammer_ep_steps: 200
+  jammersSpawnNextToUsers: false
+  n_eval_eps: 30
+  networkConnectedAtStart: false
+  numbOfJammers: 1
+  numbOfUsers:
+  - 2
+  - 21
+  obs_type: real
+  render_mode: null
+  routing_func: sequential_max_flow
+  seed: 22
+  state_loss_rate: null
+  step_size: 2
+  # Observation-manipulation attack: one Byzantine node fabricates demand reports
+  # to lure legitimate nodes into clustering around it ("demand sinkhole").
+  # Completely undetectable — no physics cross-check is possible for traffic demand.
+  numbOfByzantineNodes: 1
+  byzantine_attack_type: obs_demand
+  byzantine_obs_demand_factor: 3.0   # inflate reported demand by 3x
+
+  # Other obs-manipulation types — uncomment to use instead:
+  #
+  # obs_user_dir: lies about direction to closest user/sender/receiver.
+  # byzantine_attack_type: obs_user_dir
+  # byzantine_obs_user_dir_offset: [0.5, 0.0]  # 50 % of playground width
+  #
+  # obs_capacity: inflates reported in/out capacity to attract routing.
+  # byzantine_attack_type: obs_capacity
+  # byzantine_obs_capacity_factor: 3.0
+  #
+  # obs_interference_lie: reports zero interference even near jammers.
+  # byzantine_attack_type: obs_interference_lie
+  # byzantine_obs_interference_factor: 0.0  # 0.0 = fully hidden, 1.0 = honest
+  #
+  # obs_noise: adds Gaussian noise to all broadcast observation fields.
+  # byzantine_attack_type: obs_noise
+  # byzantine_obs_noise_std: 0.1
+eval_type: grouped_eval
+log_dir: out/evaluations/
+log_results: true
+log_state: true
+log_eval: true
+mode: evaluate

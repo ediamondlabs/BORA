@@ -1,0 +1,66 @@
+% Steps plot — magnitude 4.0
+% Required preamble: \usepackage{pgfplots,pgfplotstable,siunitx}
+%   \usepgfplotslibrary{fillbetween}  \pgfplotsset{compat=1.18}
+
+\definecolor{colorNoByzantine}{HTML}{E41A1C}
+\definecolor{colorInterferenceAmplifyfalsealarm}{HTML}{377EB8}
+\definecolor{colorInterferenceLiehide}{HTML}{4DAF4A}
+\definecolor{colorObsNoise}{HTML}{984EA3}
+\definecolor{colorUserDirLie}{HTML}{FF7F00}
+
+\pgfplotsset{
+    ci path/.style={draw=none}, ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark repeat=200, mark size=1.5pt},
+    NoByzantine/.style={color=colorNoByzantine, mark=*},
+    InterferenceAmplifyfalsealarm/.style={color=colorInterferenceAmplifyfalsealarm, mark=square*},
+    InterferenceLiehide/.style={color=colorInterferenceLiehide, mark=triangle*},
+    ObsNoise/.style={color=colorObsNoise, mark=diamond*},
+    UserDirLie/.style={color=colorUserDirLie, mark=pentagon*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small $t$}, ylabel={\small $\tau$ [\si{\mega\bit\per\second}]},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small}, label style={font=\small},
+    ]
+
+    % ===== No Byzantine =====
+    \addplot [name path=NoByzantineup, ci path, forget plot] table [x=x, y=upNoByzantine, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [name path=NoByzantinelo, ci path, forget plot] table [x=x, y=lowNoByzantine, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [NoByzantine, ci fill, forget plot] fill between [of=NoByzantineup and NoByzantinelo];
+    \addplot [NoByzantine, mean] table [x=x, y=meanNoByzantine, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addlegendentry{No Byzantine}
+
+    % ===== Interference Amplify (false alarm) =====
+    \addplot [name path=InterferenceAmplifyfalsealarmup, ci path, forget plot] table [x=x, y=upInterferenceAmplifyfalsealarm, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [name path=InterferenceAmplifyfalsealarmlo, ci path, forget plot] table [x=x, y=lowInterferenceAmplifyfalsealarm, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [InterferenceAmplifyfalsealarm, ci fill, forget plot] fill between [of=InterferenceAmplifyfalsealarmup and InterferenceAmplifyfalsealarmlo];
+    \addplot [InterferenceAmplifyfalsealarm, mean] table [x=x, y=meanInterferenceAmplifyfalsealarm, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addlegendentry{Interference Amplify (false alarm)}
+
+    % ===== Interference Lie (hide) =====
+    \addplot [name path=InterferenceLiehideup, ci path, forget plot] table [x=x, y=upInterferenceLiehide, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [name path=InterferenceLiehidelo, ci path, forget plot] table [x=x, y=lowInterferenceLiehide, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [InterferenceLiehide, ci fill, forget plot] fill between [of=InterferenceLiehideup and InterferenceLiehidelo];
+    \addplot [InterferenceLiehide, mean] table [x=x, y=meanInterferenceLiehide, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addlegendentry{Interference Lie (hide)}
+
+    % ===== Obs. Noise =====
+    \addplot [name path=ObsNoiseup, ci path, forget plot] table [x=x, y=upObsNoise, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [name path=ObsNoiselo, ci path, forget plot] table [x=x, y=lowObsNoise, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [ObsNoise, ci fill, forget plot] fill between [of=ObsNoiseup and ObsNoiselo];
+    \addplot [ObsNoise, mean] table [x=x, y=meanObsNoise, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addlegendentry{Obs. Noise}
+
+    % ===== User Dir Lie =====
+    \addplot [name path=UserDirLieup, ci path, forget plot] table [x=x, y=upUserDirLie, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [name path=UserDirLielo, ci path, forget plot] table [x=x, y=lowUserDirLie, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addplot [UserDirLie, ci fill, forget plot] fill between [of=UserDirLieup and UserDirLielo];
+    \addplot [UserDirLie, mean] table [x=x, y=meanUserDirLie, col sep=comma] {steps_29_04-re-PPO_5_1_10_100_no_obs_att_mag4.csv};
+    \addlegendentry{User Dir Lie}
+
+    \end{axis}
+\end{tikzpicture}

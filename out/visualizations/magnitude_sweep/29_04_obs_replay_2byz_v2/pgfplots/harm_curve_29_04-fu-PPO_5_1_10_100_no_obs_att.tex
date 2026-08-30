@@ -1,0 +1,33 @@
+% ============================================================
+% Required preamble: \usepackage{pgfplots,pgfplotstable,siunitx}
+%   \usepgfplotslibrary{fillbetween}  \pgfplotsset{compat=1.18}
+% ============================================================
+
+\definecolor{colorObsReplay}{HTML}{E41A1C}
+
+\pgfplotsset{
+    ci path/.style={draw=none},
+    ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark size=1.5pt},
+    ObsReplay/.style={color=colorObsReplay, mark=*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small magnitude},
+        ylabel={\small $\Delta\tau\,[\%]$},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small}, label style={font=\small},
+    ]
+
+    % ===== Obs. Replay =====
+    \addplot [name path=ObsReplayup, ci path, forget plot] table [x=x, y=upObsReplay, col sep=comma] {harm_curve_29_04-fu-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=ObsReplaylo, ci path, forget plot] table [x=x, y=lowObsReplay, col sep=comma] {harm_curve_29_04-fu-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [ObsReplay, ci fill, forget plot] fill between [of=ObsReplayup and ObsReplaylo];
+    \addplot [ObsReplay, mean] table [x=x, y=meanObsReplay, col sep=comma] {harm_curve_29_04-fu-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Obs. Replay}
+
+    \end{axis}
+\end{tikzpicture}

@@ -1,0 +1,60 @@
+% ============================================================
+% Required preamble: \usepackage{pgfplots,pgfplotstable,siunitx}
+%   \usepgfplotslibrary{fillbetween}  \pgfplotsset{compat=1.18}
+% ============================================================
+
+\definecolor{colorCapacityDeflate}{HTML}{E41A1C}
+\definecolor{colorDemandDeflate}{HTML}{377EB8}
+\definecolor{colorObsNoise}{HTML}{4DAF4A}
+\definecolor{colorObsReplay}{HTML}{984EA3}
+
+\pgfplotsset{
+    ci path/.style={draw=none},
+    ci fill/.style={opacity=0.15},
+    mean/.style={thick, mark size=1.5pt},
+    CapacityDeflate/.style={color=colorCapacityDeflate, mark=*},
+    DemandDeflate/.style={color=colorDemandDeflate, mark=square*},
+    ObsNoise/.style={color=colorObsNoise, mark=triangle*},
+    ObsReplay/.style={color=colorObsReplay, mark=diamond*},
+}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=major, grid style={dashed, gray!30},
+        width=\linewidth,
+        xlabel={\small magnitude},
+        ylabel={\small $\Delta\tau\,[\%]$},
+        legend style={at={(0.5,-0.20)}, anchor=north, legend columns=3},
+        tick label style={font=\small}, label style={font=\small},
+    ]
+
+    % ===== Capacity Deflate =====
+    \addplot [name path=CapacityDeflateup, ci path, forget plot] table [x=x, y=upCapacityDeflate, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=CapacityDeflatelo, ci path, forget plot] table [x=x, y=lowCapacityDeflate, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [CapacityDeflate, ci fill, forget plot] fill between [of=CapacityDeflateup and CapacityDeflatelo];
+    \addplot [CapacityDeflate, mean] table [x=x, y=meanCapacityDeflate, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Capacity Deflate}
+
+    % ===== Demand Deflate =====
+    \addplot [name path=DemandDeflateup, ci path, forget plot] table [x=x, y=upDemandDeflate, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=DemandDeflatelo, ci path, forget plot] table [x=x, y=lowDemandDeflate, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [DemandDeflate, ci fill, forget plot] fill between [of=DemandDeflateup and DemandDeflatelo];
+    \addplot [DemandDeflate, mean] table [x=x, y=meanDemandDeflate, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Demand Deflate}
+
+    % ===== Obs. Noise =====
+    \addplot [name path=ObsNoiseup, ci path, forget plot] table [x=x, y=upObsNoise, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=ObsNoiselo, ci path, forget plot] table [x=x, y=lowObsNoise, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [ObsNoise, ci fill, forget plot] fill between [of=ObsNoiseup and ObsNoiselo];
+    \addplot [ObsNoise, mean] table [x=x, y=meanObsNoise, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Obs. Noise}
+
+    % ===== Obs. Replay =====
+    \addplot [name path=ObsReplayup, ci path, forget plot] table [x=x, y=upObsReplay, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [name path=ObsReplaylo, ci path, forget plot] table [x=x, y=lowObsReplay, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addplot [ObsReplay, ci fill, forget plot] fill between [of=ObsReplayup and ObsReplaylo];
+    \addplot [ObsReplay, mean] table [x=x, y=meanObsReplay, col sep=comma] {harm_curve_29_04-re-PPO_5_1_10_100_no_obs_att.csv};
+    \addlegendentry{Obs. Replay}
+
+    \end{axis}
+\end{tikzpicture}

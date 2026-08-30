@@ -1,0 +1,42 @@
+agent_patterns:
+- patterns/to/your/models
+baselines_with_cs:
+- baseline: GreedyMaximizer
+  cs: TrafficHosted
+  threshold: 1000000000000000.0
+env_constr: Dynamic_MANETEnv
+eval_params:
+  allow_early_ep_finish: false
+  attackerModel: Static_ClusterJammers
+  deterministic: true
+  ep_length: 1000
+  jammer_ep_steps: 500
+  jammersSpawnNextToUsers: false
+  n_eval_eps: 30
+  networkConnectedAtStart: false
+  numbOfJammers: 1
+  numbOfUsers:
+  - 2
+  - 21
+  obs_type: real
+  render_mode: null
+  routing_func: sequential_max_flow
+  seed: 22
+  state_loss_rate: null
+  step_size: 2
+  # Mixed Byzantine attack: multiple attack types active simultaneously.
+  # byzantine_attack_type is a list; types are assigned round-robin across
+  # Byzantine nodes (node 0 → greyhole, node 1 → selective_jamming, etc.).
+  # shared params (drop_rate, capacity_inflation_factor, etc.) apply to all nodes.
+  numbOfByzantineNodes: 2
+  byzantine_attack_type:
+  - greyhole
+  - selective_jamming
+  byzantine_drop_rate: 0.5
+  byzantine_jamming_power_factor: 1.5
+eval_type: grouped_eval
+log_dir: out/evaluations/
+log_results: true
+log_state: true
+log_eval: true
+mode: evaluate
